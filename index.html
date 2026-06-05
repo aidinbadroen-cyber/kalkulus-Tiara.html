@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kalkulus Pintar — Tiara</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #fdf6ee;
+    --surface: #fff8f0;
+    --card: #ffffff;
+    --accent1: #e07b54;
+    --accent2: #4a90a4;
+    --accent3: #7bb87a;
+    --text: #2d2416;
+    --muted: #8a7060;
+    --border: #e8ddd0;
+    --shadow: rgba(80,50,20,0.08);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+  }
+
+  /* NAV */
+  nav {
+    position:sticky; top:0; z-index:100;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:1rem 2.5rem;
+    background: rgba(253,246,238,0.92);
+    backdrop-filter:blur(10px);
+    border-bottom: 1px solid var(--border);
+  }
+  .logo {
+    font-family:'Playfair Display',serif; font-size:1.4rem; font-weight:900;
+    color: var(--accent1);
+  }
+  .logo span { color: var(--text); }
+  .nav-links { display:flex; gap:2rem; }
+  .nav-links a {
+    color:var(--muted); text-decoration:none; font-size:.875rem; font-weight:500;
+    transition:color .2s;
+  }
+  .nav-links a:hover { color:var(--accent1); }
+
+  /* HERO */
+  .hero {
+    display:grid; grid-template-columns:1fr 1fr;
+    align-items:center; gap:3rem;
+    max-width:1100px; margin:0 auto;
+    padding: 5rem 2.5rem 3rem;
+  }
+  @media(max-width:700px) { .hero { grid-template-columns:1fr; padding:3rem 1.2rem 2rem; } .hero-art { display:none; } }
+  .hero-tag {
+    display:inline-block; padding:.3rem .9rem; border-radius:999px;
+    background:rgba(224,123,84,0.12); color:var(--accent1);
+    font-size:.78rem; font-weight:500; margin-bottom:1rem; letter-spacing:.05em;
+  }
+  .hero h1 {
+    font-family:'Playfair Display',serif;
+    font-size:clamp(2rem,5vw,3.2rem); font-weight:900;
+    line-height:1.15; margin-bottom:1rem; color:var(--text);
+  }
+  .hero h1 em { font-style:italic; color:var(--accent1); }
+  .hero p { font-size:.95rem; color:var(--muted); line-height:1.75; margin-bottom:2rem; }
+  .hero-btns { display:flex; gap:.75rem; flex-wrap:wrap; }
+  .btn {
+    padding:.7rem 1.5rem; border-radius:10px; font-family:'DM Sans',sans-serif;
+    font-size:.875rem; font-weight:500; cursor:pointer; border:none;
+    text-decoration:none; transition:all .2s;
+  }
+  .btn-main { background:var(--accent1); color:#fff; box-shadow:0 4px 16px rgba(224,123,84,0.3); }
+  .btn-main:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(224,123,84,0.4); }
+  .btn-outline { background:transparent; color:var(--text); border:1.5px solid var(--border); }
+  .btn-outline:hover { border-color:var(--accent1); color:var(--accent1); }
+
+  /* SVG Art */
+  .hero-art { display:flex; justify-content:center; }
+  .hero-art svg { width:100%; max-width:360px; }
+
+  /* MATERI CARDS */
+  .section { max-width:1100px; margin:0 auto; padding:3rem 2.5rem; }
+  @media(max-width:600px) { .section { padding:2rem 1.2rem; } }
+  .sec-eyebrow { font-size:.78rem; font-weight:600; letter-spacing:.12em; color:var(--accent1); text-transform:uppercase; margin-bottom:.4rem; }
+  .sec-title { font-family:'Playfair Display',serif; font-size:clamp(1.4rem,2.5vw,1.9rem); font-weight:700; margin-bottom:2rem; }
+  .materi-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(290px,1fr)); gap:1.5rem; }
+  .materi-card {
+    background:var(--card); border:1px solid var(--border); border-radius:20px;
+    padding:2rem; box-shadow:0 2px 12px var(--shadow);
+    transition:all .25s; position:relative; overflow:hidden;
+  }
+  .materi-card:hover { transform:translateY(-4px); box-shadow:0 12px 32px var(--shadow); }
+  .mc-dot {
+    width:48px; height:48px; border-radius:14px; display:flex;
+    align-items:center; justify-content:center; font-size:1.5rem;
+    margin-bottom:1.25rem;
+  }
+  .mc-limit .mc-dot { background:#fff0ea; }
+  .mc-turunan .mc-dot { background:#e8f4f8; }
+  .mc-integral .mc-dot { background:#edf7ec; }
+  .materi-card h3 {
+    font-family:'Playfair Display',serif; font-size:1.2rem; font-weight:700;
+    margin-bottom:.6rem;
+  }
+  .materi-card p { font-size:.875rem; color:var(--muted); line-height:1.7; }
+  .mc-badge {
+    display:inline-block; margin-top:1.25rem; padding:.28rem .75rem;
+    border-radius:999px; font-size:.72rem; font-weight:600; letter-spacing:.04em;
+  }
+  .mc-limit .mc-badge { background:#fff0ea; color:var(--accent1); }
+  .mc-turunan .mc-badge { background:#e8f4f8; color:var(--accent2); }
+  .mc-integral .mc-badge { background:#edf7ec; color:var(--accent3); }
+
+  /* DIVIDER */
+  .divider { height:1px; background:var(--border); max-width:1100px; margin:0 auto; }
+
+  /* KALKULATOR */
+  .calc-tabs { display:flex; gap:.5rem; margin-bottom:1.5rem; flex-wrap:wrap; }
+  .calc-tab {
+    padding:.5rem 1.2rem; border-radius:8px; border:1.5px solid var(--border);
+    background:transparent; color:var(--muted); cursor:pointer;
+    font-family:'DM Sans',sans-serif; font-size:.85rem; font-weight:500;
+    transition:all .2s;
+  }
+  .calc-tab.active { background:var(--accent1); color:#fff; border-color:var(--accent1); }
+  .calc-panel { display:none; }
+  .calc-panel.active { display:block; }
+  .calc-box {
+    background:var(--card); border:1px solid var(--border); border-radius:20px;
+    padding:2rem; box-shadow:0 2px 12px var(--shadow);
+  }
+  .calc-box h3 { font-family:'Playfair Display',serif; font-size:1.2rem; font-weight:700; margin-bottom:1.25rem; }
+  .fg { display:flex; flex-direction:column; gap:.9rem; }
+  .fg label { font-size:.78rem; color:var(--muted); font-weight:500; display:block; margin-bottom:.3rem; }
+  .fg input, .fg select {
+    width:100%; padding:.65rem 1rem; border-radius:10px;
+    border:1.5px solid var(--border); background:var(--bg);
+    color:var(--text); font-family:'DM Sans',sans-serif; font-size:.9rem;
+    outline:none; transition:border-color .2s;
+  }
+  .fg input:focus, .fg select:focus { border-color:var(--accent1); }
+  .fg .row2 { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+  .result-block {
+    margin-top:.5rem; padding:1rem 1.2rem; border-radius:12px;
+    background:var(--bg); border:1.5px solid var(--border);
+    font-size:.9rem; color:var(--muted); min-height:3rem;
+    transition:all .3s; font-style:italic;
+  }
+  .result-block.show { border-color:var(--accent1); color:var(--text); background:#fff8f3; font-style:normal; }
+
+  /* RUMUS TABLE */
+  .rumus-table { width:100%; border-collapse:collapse; font-size:.88rem; }
+  .rumus-table thead th {
+    text-align:left; padding:.75rem 1rem;
+    background:var(--surface); border-bottom:2px solid var(--border);
+    font-weight:600; color:var(--text);
+  }
+  .rumus-table tbody tr { border-bottom:1px solid var(--border); transition:background .15s; }
+  .rumus-table tbody tr:hover { background:var(--surface); }
+  .rumus-table td { padding:.75rem 1rem; color:var(--muted); }
+  .rumus-table td:first-child { font-weight:500; color:var(--text); }
+  .rumus-table td:last-child { font-family:'Playfair Display',serif; color:var(--accent1); font-size:.95rem; }
+  .table-wrap { background:var(--card); border:1px solid var(--border); border-radius:20px; overflow:hidden; box-shadow:0 2px 12px var(--shadow); }
+
+  /* FOOTER */
+  footer {
+    margin-top:4rem; text-align:center; padding:3rem 1.5rem;
+    border-top:1px solid var(--border);
+    background:var(--surface);
+  }
+  .footer-name {
+    font-family:'Playfair Display',serif; font-size:1.3rem; font-weight:700;
+    color:var(--accent1); margin-bottom:.3rem;
+  }
+  .footer-npm { font-size:.85rem; color:var(--muted); font-weight:500; }
+  .footer-note { font-size:.75rem; color:var(--border); margin-top:1rem; }
+
+  .reveal { opacity:0; transform:translateY(20px); transition:opacity .6s, transform .6s; }
+  .reveal.visible { opacity:1; transform:translateY(0); }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">∫ <span>Kalkulus Pintar</span></div>
+  <div class="nav-links">
+    <a href="#materi">Materi</a>
+    <a href="#kalkulator">Kalkulator</a>
+    <a href="#rumus">Rumus</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-text">
+    <span class="hero-tag">📐 Matematika Kalkulus</span>
+    <h1>Eksplorasi Dunia <em>Kalkulus</em> dengan Menyenangkan</h1>
+    <p>Pelajari konsep Limit, Turunan, dan Integral secara interaktif. Lengkap dengan contoh perhitungan dan rumus-rumus penting.</p>
+    <div class="hero-btns">
+      <a href="#materi" class="btn btn-main">Lihat Materi</a>
+      <a href="#kalkulator" class="btn btn-outline">Kalkulator →</a>
+    </div>
+  </div>
+  <div class="hero-art">
+    <svg viewBox="0 0 360 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="180" cy="150" r="130" fill="#fff8f0" stroke="#e8ddd0" stroke-width="1.5"/>
+      <circle cx="180" cy="150" r="90" fill="#fff3e8" stroke="#f0c9aa" stroke-width="1"/>
+      <!-- Graph curve -->
+      <path d="M60 220 Q120 80 180 150 Q240 220 300 90" stroke="#e07b54" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      <!-- Area fill -->
+      <path d="M60 220 Q120 80 180 150 Q240 220 300 90 L300 220 Z" fill="rgba(224,123,84,0.08)"/>
+      <!-- Axes -->
+      <line x1="50" y1="220" x2="320" y2="220" stroke="#c4b09a" stroke-width="1.5"/>
+      <line x1="50" y1="50" x2="50" y2="230" stroke="#c4b09a" stroke-width="1.5"/>
+      <!-- Labels -->
+      <text x="158" y="248" fill="#8a7060" font-size="11" font-family="serif" font-style="italic">x</text>
+      <text x="36" y="42" fill="#8a7060" font-size="11" font-family="serif" font-style="italic">y</text>
+      <!-- Formula label -->
+      <rect x="200" y="100" width="90" height="30" rx="8" fill="white" stroke="#e8ddd0"/>
+      <text x="210" y="120" fill="#e07b54" font-size="12" font-family="serif" font-style="italic">∫ f(x) dx</text>
+      <!-- Dot on curve -->
+      <circle cx="180" cy="150" r="5" fill="#e07b54"/>
+      <circle cx="120" cy="130" r="4" fill="#4a90a4"/>
+    </svg>
+  </div>
+</div>
+
+<!-- MATERI -->
+<div class="divider"></div>
+<div id="materi" class="section reveal">
+  <div class="sec-eyebrow">Topik Utama</div>
+  <div class="sec-title">Tiga Materi Inti Kalkulus</div>
+  <div class="materi-grid">
+    <div class="materi-card mc-limit">
+      <div class="mc-dot">⟶</div>
+      <h3>Limit Fungsi</h3>
+      <p>Limit adalah nilai yang didekati suatu fungsi ketika variabel mendekati titik tertentu, meskipun fungsi tidak harus terdefinisi di titik itu.</p>
+      <p style="margin-top:.75rem;font-size:.82rem;color:#b09080">Contoh: lim(x→2) 3x + 1 = 7</p>
+      <span class="mc-badge">lim f(x) = L</span>
+    </div>
+    <div class="materi-card mc-turunan">
+      <div class="mc-dot">𝑓'</div>
+      <h3>Turunan (Diferensial)</h3>
+      <p>Turunan mengukur laju perubahan sesaat suatu fungsi. Secara geometris, turunan adalah kemiringan garis singgung kurva di suatu titik.</p>
+      <p style="margin-top:.75rem;font-size:.82rem;color:#b09080">Contoh: d/dx[x³] = 3x²</p>
+      <span class="mc-badge">f'(x) = dy/dx</span>
+    </div>
+    <div class="materi-card mc-integral">
+      <div class="mc-dot">∫</div>
+      <h3>Integral</h3>
+      <p>Integral adalah operasi kebalikan dari turunan. Integral tentu digunakan untuk menghitung luas daerah di bawah kurva antara dua batas.</p>
+      <p style="margin-top:.75rem;font-size:.82rem;color:#b09080">Contoh: ∫x² dx = x³/3 + C</p>
+      <span class="mc-badge">∫ f(x) dx</span>
+    </div>
+  </div>
+</div>
+
+<!-- KALKULATOR -->
+<div class="divider"></div>
+<div id="kalkulator" class="section reveal">
+  <div class="sec-eyebrow">Interaktif</div>
+  <div class="sec-title">Kalkulator Kalkulus</div>
+  <div class="calc-tabs">
+    <button class="calc-tab active" onclick="switchTab(this,'tab-limit')">⟶ Limit</button>
+    <button class="calc-tab" onclick="switchTab(this,'tab-turunan')">𝑓' Turunan</button>
+    <button class="calc-tab" onclick="switchTab(this,'tab-integral')">∫ Integral</button>
+  </div>
+
+  <!-- Limit -->
+  <div class="calc-panel active" id="tab-limit">
+    <div class="calc-box">
+      <h3>Kalkulator Limit</h3>
+      <div class="fg">
+        <div>
+          <label>TIPE FUNGSI</label>
+          <select id="tl_type">
+            <option value="linear">Linear: ax + b</option>
+            <option value="quadratic">Kuadrat: ax² + bx + c</option>
+            <option value="rational">Rasional: (ax+b)/(cx+d)</option>
+            <option value="special">Limit Istimewa: sin(x)/x → 1</option>
+          </select>
+        </div>
+        <div class="row2">
+          <div><label>a</label><input type="number" id="tl_a" value="2"></div>
+          <div><label>b</label><input type="number" id="tl_b" value="1"></div>
+        </div>
+        <div class="row2">
+          <div><label>c (untuk kuadrat)</label><input type="number" id="tl_c" value="0"></div>
+          <div><label>x mendekati</label><input type="number" id="tl_x" value="3"></div>
+        </div>
+        <button class="btn btn-main" onclick="calcLimit()">Hitung ▶</button>
+        <div><label>HASIL</label><div class="result-block" id="res_limit">Masukkan nilai lalu tekan Hitung...</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Turunan -->
+  <div class="calc-panel" id="tab-turunan">
+    <div class="calc-box">
+      <h3>Kalkulator Turunan</h3>
+      <div class="fg">
+        <div>
+          <label>TIPE FUNGSI</label>
+          <select id="td_type">
+            <option value="power">Pangkat: axⁿ</option>
+            <option value="poly">Polinomial: ax³ + bx² + cx + d</option>
+            <option value="trig">Trigonometri: a·sin(x) atau a·cos(x)</option>
+            <option value="exp">Eksponensial: a·eˣ</option>
+          </select>
+        </div>
+        <div class="row2">
+          <div><label>Koefisien (a)</label><input type="number" id="td_a" value="5"></div>
+          <div><label>Pangkat (n)</label><input type="number" id="td_n" value="3"></div>
+        </div>
+        <div class="row2">
+          <div><label>b</label><input type="number" id="td_b" value="0"></div>
+          <div><label>c</label><input type="number" id="td_c" value="0"></div>
+        </div>
+        <button class="btn btn-main" onclick="calcDeriv()">Hitung ▶</button>
+        <div><label>HASIL</label><div class="result-block" id="res_deriv">Masukkan nilai lalu tekan Hitung...</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Integral -->
+  <div class="calc-panel" id="tab-integral">
+    <div class="calc-box">
+      <h3>Kalkulator Integral</h3>
+      <div class="fg">
+        <div>
+          <label>TIPE INTEGRAL</label>
+          <select id="ti_type" onchange="toggleBounds()">
+            <option value="indefinite">Tak Tentu: ∫axⁿ dx</option>
+            <option value="definite">Tentu: ∫ₐᵇ axⁿ dx</option>
+          </select>
+        </div>
+        <div class="row2">
+          <div><label>Koefisien (a)</label><input type="number" id="ti_a" value="3"></div>
+          <div><label>Pangkat (n)</label><input type="number" id="ti_n" value="2"></div>
+        </div>
+        <div class="row2" id="bounds_row" style="display:none">
+          <div><label>Batas Bawah (a)</label><input type="number" id="ti_b1" value="0"></div>
+          <div><label>Batas Atas (b)</label><input type="number" id="ti_b2" value="3"></div>
+        </div>
+        <button class="btn btn-main" onclick="calcInteg()">Hitung ▶</button>
+        <div><label>HASIL</label><div class="result-block" id="res_integ">Masukkan nilai lalu tekan Hitung...</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- RUMUS -->
+<div class="divider"></div>
+<div id="rumus" class="section reveal">
+  <div class="sec-eyebrow">Referensi</div>
+  <div class="sec-title">Daftar Rumus Penting</div>
+  <div class="table-wrap">
+    <table class="rumus-table">
+      <thead><tr><th>Nama</th><th>Kategori</th><th>Rumus</th></tr></thead>
+      <tbody>
+        <tr><td>Limit Konstan</td><td>Limit</td><td>lim c = c</td></tr>
+        <tr><td>Limit Penjumlahan</td><td>Limit</td><td>lim[f+g] = L₁ + L₂</td></tr>
+        <tr><td>Limit Sin Standar</td><td>Limit</td><td>lim sin(x)/x = 1 (x→0)</td></tr>
+        <tr><td>Turunan Pangkat</td><td>Turunan</td><td>d/dx[xⁿ] = nxⁿ⁻¹</td></tr>
+        <tr><td>Aturan Rantai</td><td>Turunan</td><td>[f(g(x))]' = f'(g(x))·g'(x)</td></tr>
+        <tr><td>Turunan Sin/Cos</td><td>Turunan</td><td>sin' = cos, cos' = -sin</td></tr>
+        <tr><td>Turunan Produk</td><td>Turunan</td><td>(uv)' = u'v + uv'</td></tr>
+        <tr><td>Integral Pangkat</td><td>Integral</td><td>∫xⁿdx = xⁿ⁺¹/(n+1) + C</td></tr>
+        <tr><td>Integral Sin/Cos</td><td>Integral</td><td>∫sin = -cos+C, ∫cos = sin+C</td></tr>
+        <tr><td>Teorema Fundamental</td><td>Integral</td><td>∫ₐᵇ f = F(b) - F(a)</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-name">Tiara Helena Soebakri</div>
+  <div class="footer-npm">NPM: 202557201008</div>
+  <div class="footer-note">Website Kalkulus Interaktif — Matematika</div>
+</footer>
+
+<script>
+// Reveal
+const obs = new IntersectionObserver(e => e.forEach(el => { if(el.isIntersecting) el.target.classList.add('visible'); }), { threshold:0.1 });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+// Tabs
+function switchTab(btn, id) {
+  document.querySelectorAll('.calc-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.calc-panel').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(id).classList.add('active');
+}
+
+// Limit
+function calcLimit() {
+  const type = document.getElementById('tl_type').value;
+  const a = parseFloat(document.getElementById('tl_a').value)||0;
+  const b = parseFloat(document.getElementById('tl_b').value)||0;
+  const c = parseFloat(document.getElementById('tl_c').value)||0;
+  const x = parseFloat(document.getElementById('tl_x').value)||0;
+  const box = document.getElementById('res_limit');
+  let txt='';
+  if(type==='linear') {
+    txt = `lim(x→${x}) ${a}x + ${b} = ${a}·${x} + ${b} = ${a*x+b}`;
+  } else if(type==='quadratic') {
+    const r = a*x*x + b*x + c;
+    txt = `lim(x→${x}) ${a}x² + ${b}x + ${c} = ${a}(${x})² + ${b}(${x}) + ${c} = ${r}`;
+  } else if(type==='rational') {
+    const num=a*x+b, den=c*x+b;
+    if(den===0){txt='Tidak terdefinisi — penyebut = 0';} else {txt=`lim(x→${x}) (${a}x+${b})/(${c}x+${b}) = ${num}/${den} = ${(num/den).toFixed(4)}`;}
+  } else {
+    txt = 'Limit istimewa: lim(x→0) sin(x)/x = 1\nHasil: 1';
+  }
+  box.textContent = txt; box.className = 'result-block show';
+}
+
+// Turunan
+function calcDeriv() {
+  const type = document.getElementById('td_type').value;
+  const a = parseFloat(document.getElementById('td_a').value)||0;
+  const n = parseFloat(document.getElementById('td_n').value)||0;
+  const b = parseFloat(document.getElementById('td_b').value)||0;
+  const c2 = parseFloat(document.getElementById('td_c').value)||0;
+  const box = document.getElementById('res_deriv');
+  let txt='';
+  if(type==='power') {
+    txt = `d/dx[${a}x^${n}] = ${a*n}x^${n-1}`;
+  } else if(type==='poly') {
+    txt = `d/dx[${a}x³ + ${b}x² + ${c2}x] = ${3*a}x² + ${2*b}x + ${c2}`;
+  } else if(type==='trig') {
+    txt = `d/dx[${a}·sin(x)] = ${a}·cos(x)\nd/dx[${a}·cos(x)] = -${a}·sin(x)`;
+  } else {
+    txt = `d/dx[${a}·eˣ] = ${a}·eˣ`;
+  }
+  box.textContent = txt; box.className = 'result-block show';
+}
+
+// Integral bounds toggle
+function toggleBounds() {
+  const v = document.getElementById('ti_type').value;
+  document.getElementById('bounds_row').style.display = v==='definite'?'grid':'none';
+}
+
+function calcInteg() {
+  const type = document.getElementById('ti_type').value;
+  const a = parseFloat(document.getElementById('ti_a').value)||0;
+  const n = parseFloat(document.getElementById('ti_n').value)||0;
+  const box = document.getElementById('res_integ');
+  let txt='';
+  if(type==='indefinite') {
+    const nn=n+1, koef=a/nn;
+    txt = `∫${a}x^${n} dx = ${koef.toFixed(4)}x^${nn} + C`;
+  } else {
+    const b1=parseFloat(document.getElementById('ti_b1').value)||0;
+    const b2=parseFloat(document.getElementById('ti_b2').value)||0;
+    const nn=n+1, k=a/nn;
+    const hasil=k*(Math.pow(b2,nn)-Math.pow(b1,nn));
+    txt = `∫(${b1} ke ${b2}) ${a}x^${n} dx\n= [${k.toFixed(4)}x^${nn}] dari ${b1} ke ${b2}\n= ${k.toFixed(4)}(${b2}^${nn}) − ${k.toFixed(4)}(${b1}^${nn})\n= ${hasil.toFixed(4)}`;
+  }
+  box.textContent = txt; box.className = 'result-block show';
+}
+</script>
+</body>
+</html>
